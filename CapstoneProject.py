@@ -9,10 +9,8 @@ from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 pd.set_option('display.max_columns',200)
 
-plt.ion() 
-
 #loading the dataset:
-df = pd.read_csv('C:\\Users\\Priya\\OneDrive\\Desktop\\vsCode\\ML\\EDA\\expected_ctc.csv')
+df = pd.read_csv('C:\\Users\\Priya\\OneDrive\\Desktop\\vsCode\\ML\\MLCapstoneProject\\expected_ctc.csv')
 
 figures = []#for graphs
 
@@ -222,7 +220,7 @@ print(X.columns[:10])
 X_train, X_test, Y_train, Y_test = train_test_split(X,y,test_size=0.2,random_state=42) 
 print(X_train.shape)
 print(X_test.shape)
-#####################################
+
 
 rf = RandomForestRegressor(random_state=42)
 lr = LinearRegression()
@@ -260,7 +258,7 @@ importance_df = pd.DataFrame({
     'importance': feature_importances
 }).sort_values('importance', ascending=False)
 
-plt.figure(figsize=(10, 8))
+fig6 = plt.figure(figsize=(10, 8))
 plt.barh(importance_df['feature'][:20], importance_df['importance'][:20])
 plt.xlabel('Importance')
 plt.title('Top 20 Feature Importances (Random Forest)')
@@ -268,32 +266,33 @@ plt.gca().invert_yaxis()
 plt.tight_layout()
 plt.show()
 plt.figure(figsize=(12, 5))
+figures.append(fig6)
 
 # Random Forest residuals
-plt.subplot(1, 2, 1)
+fig7 = plt.subplot(1, 2, 1)
 rf_residuals = Y_test - rf_pred
 plt.scatter(rf_pred, rf_residuals, alpha=0.5)
 plt.axhline(y=0, color='r', linestyle='--')
 plt.xlabel('Predicted Values')
 plt.ylabel('Residuals')
 plt.title('Random Forest Residual Plot')
+figures.append(fig7)
 
 # Linear Regression residuals
-plt.subplot(1, 2, 2)
+fig8 = plt.subplot(1, 2, 2)
 lr_residuals = Y_test - lr_pred
 plt.scatter(lr_pred, lr_residuals, alpha=0.5)
 plt.axhline(y=0, color='r', linestyle='--')
 plt.xlabel('Predicted Values')
 plt.ylabel('Residuals')
 plt.title('Linear Regression Residual Plot')
-
 plt.tight_layout()
-plt.show()
+figures.append(fig8)
 
 
 
 # Actual vs Predicted values plot
-plt.figure(figsize=(12, 5))
+fig9 = plt.figure(figsize=(12, 5))
 
 plt.subplot(1, 2, 1)
 plt.scatter(Y_test, rf_pred, alpha=0.5)
@@ -301,8 +300,9 @@ plt.plot([Y_test.min(), Y_test.max()], [Y_test.min(), Y_test.max()], 'r--')
 plt.xlabel('Actual Values')
 plt.ylabel('Predicted Values')
 plt.title('Random Forest: Actual vs Predicted')
+figures.append(fig9)
 
-plt.subplot(1, 2, 2)
+fig10 = plt.subplot(1, 2, 2)
 plt.scatter(Y_test, lr_pred, alpha=0.5)
 plt.plot([Y_test.min(), Y_test.max()], [Y_test.min(), Y_test.max()], 'r--')
 plt.xlabel('Actual Values')
@@ -310,7 +310,7 @@ plt.ylabel('Predicted Values')
 plt.title('Linear Regression: Actual vs Predicted')
 
 plt.tight_layout()
-plt.show()
+figures.append(fig10)
 
 # Cross-validation for more robust evaluation
 from sklearn.model_selection import cross_val_score
@@ -338,4 +338,4 @@ print(comparison_df)
 
 # Show all figures at once
 plt.ioff()  # Turn off interactive mode
-# plt.show()
+plt.show()
