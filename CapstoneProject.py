@@ -7,10 +7,16 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+import os
 pd.set_option('display.max_columns',200)
 
 #loading the dataset:
-df = pd.read_csv('C:\\Users\\Priya\\OneDrive\\Desktop\\vsCode\\ML\\MLCapstoneProject\\expected_ctc.csv')
+base_path = os.getcwd()
+
+# Build path dynamically
+file_path = os.path.join(base_path, "MLCapstoneProject\expected_ctc.csv")
+df = pd.read_csv(file_path)
+
 
 figures = []#for graphs
 
